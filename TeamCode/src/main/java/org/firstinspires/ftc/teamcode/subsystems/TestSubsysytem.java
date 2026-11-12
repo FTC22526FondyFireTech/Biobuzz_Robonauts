@@ -30,8 +30,8 @@ public class TestSubsysytem extends SubsystemBase {
 
     public TestSubsysytem() {
         leftMotorSim = new UniversalMotorSimulator(Motor.GoBILDA.RPM_435, false, 1);
-         targetDegreesPerSec = 750;
-         pidController = new PIDController(catapultPositionKp, catapultPositionKi, catapultPositionKd);
+        targetDegreesPerSec = 750;
+        pidController = new PIDController(catapultPositionKp, catapultPositionKi, catapultPositionKd);
         pidController.reset();
         pidController.setMaxOutput(.5);
     }
@@ -52,8 +52,10 @@ public class TestSubsysytem extends SubsystemBase {
 
     public Command positionCatapultCommand(double targetDegrees) {
         return Commands.sequence(
-                Commands.runOnce(() -> pidController.reset()),
-                Commands.runOnce(() -> pidController.setSetPoint(targetDegrees)),
+                Commands.runOnce(() -> {
+                    pidController.reset();
+                    pidController.setSetPoint(targetDegrees);
+                }),
                 Commands.run(() -> positionCatapult(targetDegrees)).interruptOn(() -> atGoal()));
     }
 
@@ -69,8 +71,6 @@ public class TestSubsysytem extends SubsystemBase {
     public Command resetSimEncoderCommand() {
         return Commands.runOnce(() -> leftMotorSim.resetEncoder());
     }
-
-
 
 
 }

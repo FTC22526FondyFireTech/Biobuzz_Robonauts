@@ -87,8 +87,10 @@ public class TestMotorSubsysytem extends SubsystemBase {
 
     public Command positionCatapultCommand(double targetDegrees) {
         return Commands.sequence(
-                Commands.runOnce(() -> pidController.reset()),
-                Commands.runOnce(() -> pidController.setSetPoint(targetDegrees)),
+                Commands.runOnce(() -> {
+                    pidController.reset();
+                    pidController.setSetPoint(targetDegrees);
+                }),
                 Commands.run(() -> positionCatapult(targetDegrees)).interruptOn(() -> atGoal())
                         .andThen(Commands.runOnce(() -> testMotor.set(0))));
     }
@@ -143,7 +145,7 @@ public class TestMotorSubsysytem extends SubsystemBase {
         } else if (state == 1) {
             pidOut = pidController.calculate(testMotor.getCurrentPosition(), upperTicks);
             testMotor.set(pidOut);
-           // testMotor.set(raisePct);
+            // testMotor.set(raisePct);
             maxTicksReached = testMotor.getCurrentPosition();
             if (testMotor.getCurrentPosition() > upperTicks) {
                 testMotor.set(holdPct);
@@ -163,7 +165,7 @@ public class TestMotorSubsysytem extends SubsystemBase {
         } else if (state == 3) {
             pidOut = pidController.calculate(testMotor.getCurrentPosition(), lowerTicks);
             testMotor.set(pidOut);
-          //  testMotor.set(lowerPct);
+            //  testMotor.set(lowerPct);
             minTicksReached = testMotor.getCurrentPosition();
 //            if (testMotor.getCurrentPosition() <= lowerTicks) {
 //                testMotor.set(holdPct);

@@ -63,10 +63,12 @@ public class TestMotorTestOpmode extends CommandOpMode {
                 .whenPressed(testMotorSubsysytem.cycleCatapultCommand());
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(Commands.sequence(
-                        Commands.runOnce(() -> testMotorSubsysytem.stateTimer.reset()),
-                        Commands.runOnce(() -> testMotorSubsysytem.state = 0),
-                        Commands.runOnce(() -> testMotorSubsysytem.runCatapult = true)));
+                .whenPressed(
+                        Commands.runOnce(() -> {
+                            testMotorSubsysytem.stateTimer.reset();
+                            testMotorSubsysytem.state = 0;
+                            testMotorSubsysytem.runCatapult = true;
+                        }))
 
         ;
         driverGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)

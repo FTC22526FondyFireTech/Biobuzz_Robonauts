@@ -4,7 +4,6 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.Commands;
@@ -25,7 +24,6 @@ import org.firstinspires.ftc.teamcode.utils.GlobalData;
 import org.firstinspires.ftc.teamcode.utils.PedroPaths;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +40,7 @@ public class TeleopOpmode extends CommandOpMode {
 
     GamepadEx codriverGamepad;
     MecanumDriveSubsystem drive;
-  //  VisionSubsysytem vss;
+    //  VisionSubsysytem vss;
     IntakeSubsystem intake;
 
     CatapultSubsystem catapultss;
@@ -103,7 +101,7 @@ public class TeleopOpmode extends CommandOpMode {
             drive.setPose(GlobalData.robotPose);
             GlobalData.autoHasRun = false;
         }
-      //  vss = new VisionSubsysytem(this);
+        //  vss = new VisionSubsysytem(this);
 
         catapultss = new CatapultSubsystem(this.hardwareMap);
 
@@ -128,7 +126,11 @@ public class TeleopOpmode extends CommandOpMode {
                 .whenInactive(intake.armUpCommand());
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(intake.toggleArmPositionCommand());
+                .whenPressed(
+                        Commands.defer(() -> (
+                                        intake.stepArmDownCommand()),
+                                Collections.emptyList()));
+
 
 //        driverGamepad.getGamepadButton(GamepadKeys.Button.B)
 //                .whileHeld(new AimAtLLTXCommand(drive,
@@ -149,11 +151,9 @@ public class TeleopOpmode extends CommandOpMode {
                                         Collections.emptyList()));
 
 
-
 //        driverGamepad.getGamepadButton(
 //                        GamepadKeys.Button.X)
 //                .whenPressed(
-
 
 
     }
@@ -213,7 +213,6 @@ public class TeleopOpmode extends CommandOpMode {
         double YDiff = targetPose.y() - robotPose.y();
         return Math.hypot(XDiff, YDiff);
     }
-
 
 
 }
