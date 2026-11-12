@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.CatapultSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.VisionSubsysytem;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 import org.firstinspires.ftc.teamcode.utils.GPTrig;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
@@ -39,7 +38,7 @@ public class DeviceTestOpmode extends CommandOpMode {
     GPTrig leftTrigger2;
     GPTrig rightTrigger2;
     MecanumDriveSubsystem drive;
-    VisionSubsysytem vss;
+
     IntakeSubsystem intake;
 
 
@@ -76,8 +75,6 @@ public class DeviceTestOpmode extends CommandOpMode {
                 () -> -testGP1.getLeftX(),
                 () -> testGP1.getRightX()));
 
-
-        vss = new VisionSubsysytem(this);
 
 
 
@@ -185,42 +182,6 @@ public class DeviceTestOpmode extends CommandOpMode {
 //            telemetryM.addData("TX", f3(GlobalData.getActiveHiveTargetPose().x()));
 //            telemetryM.addData("TY", f3(GlobalData.getActiveHiveTargetPose().y()));
 
-            List<LLResultTypes.FiducialResult> fr = vss.getFiducialResults();
-
-            List<Integer> tagsSeen = vss.getTagsSeen(fr);
-//            telemetryM.addData("TagsSeen", tagsSeen);
-//
-//
-//            telemetryM.addData("ZoneFromTags", vss.findZoneFromTags(tagsSeen));
-//            telemetryM.addData("Current Zone", vss.getCurrentTagZone());
-//            telemetryM.addData("Is In Current Zone", vss.isInCurrentZone(fr));
-
-            if (!fr.isEmpty()) {
-                double[] temp = vss.getGroupTargetPose(fr);
-                double x = temp[0];
-                double y = temp[1];
-                double z = temp[2];
-                double yaw = temp[3];
-                double pitch = temp[4];
-
-//                telemetryM.addData("X", f3M2I(x));
-//                telemetryM.addData("Y", f3M2I(y));
-//                telemetryM.addData("Distance", f3M2I(z));
-//                telemetryM.addData("Yaw", f3(yaw));
-//                telemetryM.addData("Z", f3(pitch));
-//
-
-            }
-
-            LLResult result = vss.getLLResults();
-            if (result.isValid()) {
-
-//                telemetryM.addData("tx", f3(result.getTx()));
-//                telemetryM.addData("ty", f3(result.getTy()));
-//                telemetryM.addData("ta", f3(result.getTa()));
-//                telemetryM.addData("Tag Count", vss.getNumberTagsSeen(fr));
-
-            }
 
 
             telemetryM.update(telemetry);

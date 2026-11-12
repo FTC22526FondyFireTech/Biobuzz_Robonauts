@@ -30,7 +30,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public int opponemtNectarCount;
 
 
-    private Servo armServo;
+    private Servo leftArmServo;
+    private Servo rightArmServo;
     public static double intakeSpeed = 0.9; // 1150 RPM * 0.77 (or / 77%) = 885.5
     protected double simDt = 0.01; // 10ms fixed physics step (100Hz)
     private double armTargetPosition;
@@ -41,9 +42,14 @@ public class IntakeSubsystem extends SubsystemBase {
             intakeMotor = new Motor(hardwareMap, "intake", Motor.GoBILDA.RPM_1150);
             intakeMotor.setInverted(true); // change to true if initially out-taking
             direction = intakeMotor.getInverted();
-            armServo = hardwareMap.get(Servo.class, "armServo");
-            armServo.setDirection(Servo.Direction.FORWARD);
-            armServo.setPosition(upPosition);
+            leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
+            leftArmServo.setDirection(Servo.Direction.FORWARD);
+            leftArmServo.setPosition(upPosition);
+            rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
+            rightArmServo.setDirection(Servo.Direction.FORWARD);
+            rightArmServo.setPosition(upPosition);
+
+
         } else {
             intakeMotorSim = new MotorSimulator(true, 1150);
             intakeMotorSim.setInverted(true);
@@ -110,8 +116,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void positionArm(double position) {
         armTargetPosition = position;
-        if (Configurables.doSimulation)
-            armServo.setPosition(position);
+        if (Configurables.doSimulation) {
+            leftArmServo.setPosition(position);
+            rightArmServo.setPosition(position);
+        }
     }
 
     public Command armDownCommand() {
@@ -139,10 +147,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
     public void showTelemetry(TelemetryManager telemetryM) {
-            telemetryM.addData("IntakePower", getPower());
-            telemetryM.addData("IntakeRPM", getVelocityRPM());
-            telemetryM.addData("IntakeRunning", intakeRunning);
-            telemetryM.addData("ArmPosition", getArmPosition());
+        telemetryM.addData("IntakePower", getPower());
+        telemetryM.addData("IntakeRPM", getVelocityRPM());
+        telemetryM.addData("IntakeRunning", intakeRunning);
+        telemetryM.addData("ArmPosition", getArmPosition());
 
     }
 

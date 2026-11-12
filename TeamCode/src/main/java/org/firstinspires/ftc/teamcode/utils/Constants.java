@@ -10,6 +10,7 @@ import com.pedropathing.revhub.drivetrains.Mecanum;
 import com.pedropathing.revhub.drivetrains.MecanumConfig;
 import com.pedropathing.revhub.localizers.PinpointConfig;
 import com.pedropathing.revhub.localizers.PinpointLocalizer;
+import com.pedropathing.revhub.localizers.ThreeWheelLocalizer;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -50,6 +51,7 @@ public class Constants {
         c.frontRightDirection.set(DcMotorSimple.Direction.FORWARD);
         c.backRightDirection.set(DcMotorSimple.Direction.FORWARD);
     });
+
 
     // goBILDA Pinpoint odometry computer configuration.
     // xPodOffset is the forward pod's offset and yPodOffset the strafe pod's offset from the

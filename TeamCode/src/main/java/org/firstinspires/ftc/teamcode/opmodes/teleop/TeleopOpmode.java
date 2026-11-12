@@ -12,13 +12,11 @@ import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.seattlesolvers.solverslib.util.Timing;
 
-import org.firstinspires.ftc.teamcode.commands.AimAtLLTXCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowPathCommand;
 import org.firstinspires.ftc.teamcode.subsystems.CatapultSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.VisionSubsysytem;
 import org.firstinspires.ftc.teamcode.utils.Configurables;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 import org.firstinspires.ftc.teamcode.utils.FieldConstants;
@@ -44,7 +42,7 @@ public class TeleopOpmode extends CommandOpMode {
 
     GamepadEx codriverGamepad;
     MecanumDriveSubsystem drive;
-    VisionSubsysytem vss;
+  //  VisionSubsysytem vss;
     IntakeSubsystem intake;
 
     CatapultSubsystem catapultss;
@@ -105,7 +103,7 @@ public class TeleopOpmode extends CommandOpMode {
             drive.setPose(GlobalData.robotPose);
             GlobalData.autoHasRun = false;
         }
-        vss = new VisionSubsysytem(this);
+      //  vss = new VisionSubsysytem(this);
 
         catapultss = new CatapultSubsystem(this.hardwareMap);
 
@@ -132,11 +130,11 @@ public class TeleopOpmode extends CommandOpMode {
         driverGamepad.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(intake.toggleArmPositionCommand());
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.B)
-                .whileHeld(new AimAtLLTXCommand(drive,
-                        vss,true,
-                        () -> driverGamepad.getLeftY(),
-                        () -> driverGamepad.getLeftX()));
+//        driverGamepad.getGamepadButton(GamepadKeys.Button.B)
+//                .whileHeld(new AimAtLLTXCommand(drive,
+//                        vss,true,
+//                        () -> driverGamepad.getLeftY(),
+//                        () -> driverGamepad.getLeftX()));
 
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.Y)
@@ -190,15 +188,15 @@ public class TeleopOpmode extends CommandOpMode {
                 catapultss.showTelemetry(telemetryM);
             if (Configurables.showIntakeTelemetry)
                 intake.showTelemetry(telemetryM);
-            if (Configurables.showVisionTelemetry)
-                vss.showTelemetry(telemetryM);
+//            if (Configurables.showVisionTelemetry)
+//                vss.showTelemetry(telemetryM);
 
             telemetryM.update(telemetry);
 
-            if (readCamera.done()) {
-                boolean zoneCheck = checkOdometryZoneSameAsVisionZone(vss);
-                readCamera.start();
-            }
+//            if (readCamera.done()) {
+//                boolean zoneCheck = checkOdometryZoneSameAsVisionZone(vss);
+//                readCamera.start();
+//            }
         }
         reset();
     }
@@ -216,11 +214,6 @@ public class TeleopOpmode extends CommandOpMode {
         return Math.hypot(XDiff, YDiff);
     }
 
-    public boolean checkOdometryZoneSameAsVisionZone(VisionSubsysytem vss) {
-        List<LLResultTypes.FiducialResult> llResults = vss.getFiducialResults();
-        vss.updateCurrentTagZone(llResults);
-        return GlobalData.getCurrentOdometryZone() == vss.getCurrentTagZone();
-    }
 
 
 }
