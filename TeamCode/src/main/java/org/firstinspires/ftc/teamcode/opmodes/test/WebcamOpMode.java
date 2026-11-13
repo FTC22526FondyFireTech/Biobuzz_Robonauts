@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.WebcamSubsystem;
 //@Autonomous(name = "Blank")
 @TeleOp(name = "WebcamOpMode")
 
-@Disabled
+//@Disabled
 public class WebcamOpMode extends CommandOpMode {
 
     TelemetryManager telemetryM;
